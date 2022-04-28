@@ -2,19 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Picell.me</title>
+    <title>Picell</title>
+    <style>
+        
+        .can{
+
+            display: flex;
+            justify-content: center;
+            padding-top:100px;
+            
+        }
+
+    </style>
+
 </head>
 <body>
     
-    <input class = "color" type = "color">
-    <input class = "size" type = "number">
-    <input class = "button" type = "button" value = "clear">
+    <input id="Color" type="color">
+    <input id="Size" type="number">
+    <input id="button" type="button" value="clear">
 
-    <canvas class = "canvas"></canvas>
+    <div class="can">
+        <canvas id="canvas" style="background: #fff;"></canvas>
+    </div>
 
-    <script src="script.js"></script>
+    <script src="script.js" type="text/javascript" language="javascript"></script>
 
 </body>
 </html>
