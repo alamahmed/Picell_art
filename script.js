@@ -1,21 +1,39 @@
-var color = document.getElementById("Color");
-var size = document.getElementById("Size");
-var status = document.getElementById("button");
-var canvas = document.getElementById("canvas");
-var zoomed = document.getElementById("canvas-zoomed")
+let color = document.getElementById("Color");
+let size = document.getElementById("Size");
+let status = document.getElementById("button");
+let canvas = document.getElementById("canvas");
+let zoomed = document.getElementById("canvas-zoomed")
 
-var BB = canvas.getBoundingClientRect();
-var offsetX = BB.left;
-var offsetY = BB.top;  
+
+let ctx = canvas.getContext("2d");
+
+let no_of_Boxes = 50;
+canvas.width = innerWidth / 2;
+let box_Size = canvas.width / no_of_Boxes;
+canvas.height = canvas.width;
+
+
+let BB = canvas.getBoundingClientRect();
+let offsetX = BB.left;
+let offsetY = BB.top + window.scrollY;
 
 let paint = false;
 
-var ctx = canvas.getContext("2d");
 
-var no_of_Boxes = 8;
-var box_Size = 80;
-canvas.width = box_Size * no_of_Boxes;
-canvas.height = box_Size * no_of_Boxes / 2;
+function hoverEffect(event){
+
+    let mouseX = event.clientX - offsetX;
+    let mouseY = (event.clientY + window.scrollY) - offsetY;
+
+    let indexX = Math.trunc(mouseX/box_Size);
+    let indexY = Math.trunc(mouseY/box_Size);
+
+    ctx.fillStyle = color.value;
+    ctx.fillRect(indexX * box_Size, indexY * box_Size, box_Size, box_Size);
+    
+}
+
+canvas.addEventListener("mousemove", hoverEffect);
 
 
 function drawBoard(event){
@@ -30,7 +48,7 @@ function drawBoard(event){
     }
     
     ctx.lineWidth = 2;
-    ctx.strokeStyle = "black";
+    ctx.strokeStyle = "lightgray";
     ctx.stroke();
 }
 
