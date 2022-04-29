@@ -4,28 +4,56 @@
     <meta charset="UTF-8">
     <title>Picell</title>
     <style>
-        
-        .can{
 
-            display: flex;
-            justify-content: center;
-            padding-top:100px;
-            
+        * {
+            margin: 0px;
+            padding: 0px;
         }
+
+        #Size{
+            width: 200px;
+        }
+
+        .can {
+            background-color: cornsilk;
+            display: flex;
+            justify-self: center;
+            align-self: center;
+            
+            margin:10% 25%;
+
+
+            transition: cubic-bezier(0.785, 0.135, 0.15, 0.86) .2s;
+        }
+
+        /* .can:hover {
+            transform: scale(1.3);
+        } */
+
+        .zoomed{
+            position: fixed;
+            background-color: rebeccapurple;
+            border: 2px solid black;
+        }
+
 
     </style>
 
 </head>
 <body>
-    
-    <input id="Color" type="color">
-    <input id="Size" type="number">
-    <input id="button" type="button" value="clear">
-
-    <div class="can">
-        <canvas id="canvas" style="background: #fff;"></canvas>
+    <div id = "toolkit">
+        <input id="Color" type="color">
+        <input id="Size" type="number" value=1 min="1" max="60">
+        <input id="button" type="button" value="clear">
     </div>
 
+    <div onclick="zoomedWindow()">
+        <canvas id="canvas" class = "can"></canvas>
+    </div>
+
+    <div>
+        <canvas id="canvas-zoomed" class = "zoomed" style="background: #fff;"></canvas>
+    </div>
     <script src="script.js" type="text/javascript" language="javascript"></script>
 
 </body>
