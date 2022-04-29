@@ -13,14 +13,16 @@
         #Size{
             width: 200px;
         }
-
+        
         .can {
-            background-color: cornsilk;
             display: flex;
-            justify-self: center;
-            align-self: center;
+            justify-content: center;
+            margin-top: 10%;
             
-            margin:10% 25%;
+        }
+        .canvas {
+            background-color: cornsilk;
+            /* margin:10% 25%; */
 
 
             transition: cubic-bezier(0.785, 0.135, 0.15, 0.86) .2s;
@@ -47,8 +49,8 @@
         <input id="button" type="button" value="clear">
     </div>
 
-    <div onclick="zoomedWindow()">
-        <canvas id="canvas" class = "can"></canvas>
+    <div class = "can">
+        <canvas id="canvas" class = "canvas"></canvas>
     </div>
 
     <div>
