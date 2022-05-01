@@ -17,14 +17,15 @@
         table {
             height: 100vh;
             display: flex;
+            flex-wrap: wrap;
             justify-content: center; 
             align-items: center;
             background-color: #ffb85b;
-
             
         }
+
         
-        td{
+        td {
             padding-left: 20px;
             padding-top: 20px;
             transition: 0.2s ease-in-out;
@@ -49,6 +50,7 @@
             position: fixed;
             top: 0px;
 
+            z-index: 2;
             background-color: var(--nav);
         }
 
@@ -56,24 +58,28 @@
             -webkit-appearance: none;
             width: 40px;
             height: 40px;
+            border: none;
+            background-color: var(--nav);
         }   
         
-        .tools {
+        .button {
             border: none;
             margin-left: 20px;
             background-color: var(--nav);
 
         }
 
-        #button {
+        .button {
             padding: 10px 25px;
             background-color: var(--btn);
         }
         
         .can {
-            display: flex;
+            position: absolute;
+            top: 20%;
+            left: 25%;
             justify-content: center;
-            margin-top: 10%;
+            margin-top: 10px;
             
         }
 
@@ -83,14 +89,14 @@
 <body>
     
     <main>
-        <div class = "image">
+        <div id = "image">
             <table>
                 <tr>
                     <td>
-                        <img src="placeHolder.png" alt = "can1">
+                        <img id = "firstCanvas" src="placeHolder.png" alt = "can1">
                     </td>
                     <td>
-                        <img src="placeHolder.png" alt = "can1">
+                        <img id = "secondCanvas" src="placeHolder.png" alt = "can1">
                     </td>
                     <td>
                         <img src="placeHolder.png" alt = "can1">
@@ -126,8 +132,9 @@
     <section id = "draw_board">
 
         <div class = "toolkit">
-            <input class = "tools" id="Color" type="color">
-            <input class = "tools" id="button" type="button" value="clear">
+            <input id="Color" type="color">
+            <input class = "button" id="button" type="button" value="clear">
+            <input class = "button" id="back" type="button" value="back">
         </div>
         
         <div class = "can">
@@ -137,7 +144,6 @@
     </section>
     
     <script src="script.js" type="text/javascript" language="javascript"></script>
-
         
 </body>
 </html>
