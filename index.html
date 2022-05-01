@@ -4,13 +4,32 @@
     <meta charset="UTF-8">
     <title>Picell</title>
     <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
         :root{
             --nav: #ffb85b;
             --btn: rgb(255, 255, 255);
         }
-        * {
-            margin: 0px;
-            padding: 0px;
+
+        table {
+            height: 100vh;
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            background-color: #ffb85b;
+
+        }
+        
+        td{
+            padding-left: 10px;
+        }
+        
+        img{
+            width: 150px;
+            height: 150px;
         }
         
         .toolkit {
@@ -20,10 +39,8 @@
             width: 100%;
             position: fixed;
             top: 0px;
-            z-index: 2;
 
             background-color: var(--nav);
-            
         }
 
         input[type="color"] {
@@ -50,35 +67,68 @@
             margin-top: 10%;
             
         }
-        .canvas {
-
-            transition: cubic-bezier(0.785, 0.135, 0.15, 0.86) .2s;
-        }
-
-        .zoomed{
-            position: fixed;
-            background-color: rebeccapurple;
-            border: 2px solid black;
-        }
-
 
     </style>
 
 </head>
 <body>
-    <div class = "toolkit">
-        <input class = "tools" id="Color" type="color">
-        <input class = "tools" id="button" type="button" value="clear">
-    </div>
+    
+    <main>
+        <div class = "image">
+            <table>
+                <tr>
+                    <td>
+                        <img src="placeHolder.png" alt = "can1">
+                    </td>
+                    <td>
+                        <img src="placeHolder.png" alt = "can1">
+                    </td>
+                    <td>
+                        <img src="placeHolder.png" alt = "can1">
+                    </td>
+                    <td>
+                        <img src="placeHolder.png" alt = "can1">
+                    </td>
+                    <td>
+                        <img src="placeHolder.png" alt = "can1">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="placeHolder.png" alt = "can1">
+                    </td>
+                    <td>
+                        <img src="placeHolder.png" alt = "can1">
+                    </td>
+                    <td>
+                        <img src="placeHolder.png" alt = "can1">
+                    </td>
+                    <td>
+                        <img src="placeHolder.png" alt = "can1">
+                    </td>
+                    <td>
+                        <img src="placeHolder.png" alt = "can1">
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </main>
 
-    <div class = "can">
-        <canvas id="canvas" class = "canvas"></canvas>
-    </div>
+    <section id = "draw_board">
 
-    <div>
-        <canvas id="canvas-zoomed" class = "zoomed" style="background: #fff;"></canvas>
-    </div>
+        <div class = "toolkit">
+            <input class = "tools" id="Color" type="color">
+            <input class = "tools" id="button" type="button" value="clear">
+        </div>
+        
+        <div class = "can">
+            <canvas id="canvas" class = "canvas"></canvas>
+        </div>
+        
+    </section>
+    
     <script src="script.js" type="text/javascript" language="javascript"></script>
 
+        
 </body>
 </html>

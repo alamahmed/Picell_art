@@ -2,6 +2,7 @@ let color = document.getElementById("Color");
 
 let button = document.getElementById("button");
 let canvas = document.getElementById("canvas");
+let hello = document.getElementById("draw_board").style.display = "none";
 
 
 let ctx = canvas.getContext("2d");
