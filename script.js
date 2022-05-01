@@ -74,7 +74,13 @@ function clean(event){
     drawBoard();
 }
 
-button.addEventListener('click', clean);
+function screenShot(event){
+    let image = canvas.toDataURL('image/jpeg');
+}
+
+button.addEventListener('click', clean, screenShot);
+
+
 window.addEventListener('load', drawBoard);
 
 //Functions For Drawing
