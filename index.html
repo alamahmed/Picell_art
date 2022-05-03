@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+    
 <head>
     <meta charset="UTF-8">
     <title>Picell</title>
@@ -9,7 +10,7 @@
             padding: 0px;
         }
 
-        :root{
+        :root {
             --nav: #ffb85b;
             --btn: rgb(255, 255, 255);
         }
@@ -18,30 +19,32 @@
             height: 100vh;
             display: flex;
             flex-wrap: wrap;
-            justify-content: center; 
+            justify-content: center;
             align-items: center;
             background-color: #ffb85b;
-            
+
         }
 
-        
+
         td {
             padding-left: 20px;
             padding-top: 20px;
-            transition: 0.2s ease-in-out;
         }
-        
-        td:hover {
+
+        img:hover {
             transform: scale(1.2);
+            opacity: 0.8;
         }
         
-        img{
+        img {
+            transition: 0.2s ease-in-out;
+            box-shadow: 5px 10px 13px 4px #00000076;
             width: 150px;
             height: 150px;
             border-radius: 25px;
             border: 2px solid #000000;
         }
-        
+
         .toolkit {
             padding: 10px;
             display: flex;
@@ -60,8 +63,8 @@
             height: 40px;
             border: none;
             background-color: var(--nav);
-        }   
-        
+        }
+
         .button {
             border: none;
             margin-left: 20px;
@@ -73,77 +76,87 @@
             padding: 10px 25px;
             background-color: var(--btn);
         }
-        
+
         .can {
             position: absolute;
             top: 20%;
             left: 25%;
             justify-content: center;
             margin-top: 10px;
-            
-        }
 
+        }
     </style>
 
 </head>
+
 <body>
-    
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.7.0/firebase-app.js'
+        
+        // Add Firebase products that you want to use
+        // import { firestore } from 'https://www.gstatic.com/firebasejs/9.7.0/firebase-firestore.js'
+      </script>
     <main>
-        <div id = "image">
+        <div id="image">
             <table>
                 <tr>
                     <td>
-                        <img id = "firstCanvas" src="placeHolder.png" alt = "can1">
+                        <img id="firstCanvas" src="placeHolder.png" alt="can1">
                     </td>
                     <td>
-                        <img id = "secondCanvas" src="placeHolder.png" alt = "can1">
+                        <img id="secondCanvas" src="placeHolder.png" alt="can1">
                     </td>
                     <td>
-                        <img src="placeHolder.png" alt = "can1">
+                        <img src="placeHolder.png" alt="can1">
                     </td>
                     <td>
-                        <img src="placeHolder.png" alt = "can1">
+                        <img src="placeHolder.png" alt="can1">
                     </td>
                     <td>
-                        <img src="placeHolder.png" alt = "can1">
+                        <img src="placeHolder.png" alt="can1">
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <img src="placeHolder.png" alt = "can1">
+                        <img src="placeHolder.png" alt="can1">
                     </td>
                     <td>
-                        <img src="placeHolder.png" alt = "can1">
+                        <img src="placeHolder.png" alt="can1">
                     </td>
                     <td>
-                        <img src="placeHolder.png" alt = "can1">
+                        <img src="placeHolder.png" alt="can1">
                     </td>
                     <td>
-                        <img src="placeHolder.png" alt = "can1">
+                        <img src="placeHolder.png" alt="can1">
                     </td>
                     <td>
-                        <img src="placeHolder.png" alt = "can1">
+                        <img src="placeHolder.png" alt="can1">
                     </td>
                 </tr>
             </table>
         </div>
     </main>
 
-    <section id = "draw_board">
+    <section id="draw_board">
 
-        <div class = "toolkit">
-            <input id="Color" type="color">
-            <input class = "button" id="button" type="button" value="clear">
-            <input class = "button" id="back" type="button" value="back">
+        <div class="toolkit">
+            <input id="Color" type="color" value = "#000000">
+            <input class="button" id="button" type="button" value="clear">
+            <input class="button" id="back" type="button" value="back">
+            <button class = "button" id = "save">Save</button>
         </div>
-        
-        <div class = "can">
-            <canvas id="canvas" class = "canvas"></canvas>
+
+        <div class="can">
+            <canvas id="canvas" class="canvas"></canvas>
         </div>
-        
+
     </section>
-    
-    <script src="script.js" type="text/javascript" language="javascript"></script>
-        
+    <!-- firebase -->
+    <script src="firebase.js" type = "module"></script>
+
+    <!-- javascript -->
+    <script src="script.js" type = "module" language="javascript"></script>
+
 </body>
+
 </html>
