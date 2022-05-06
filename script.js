@@ -1,6 +1,5 @@
-import { readData, Save } from "./firebase.js";
+import { readData, Save, Canvas_DATA } from "./firebase.js";
 
-let canvas_Data = readData();
 //Getting Buttons and canvas from html
 let Color = document.getElementById("Color");
 let button = document.getElementById("button");
@@ -32,22 +31,21 @@ function clearData(){
     for(let x = 0; x < no_of_Boxes; x++){
         for(let y = 0; y < no_of_Boxes; y++){
             imageData[x + "_" + y] = "#FFFFFF"; 
-            // console.log(imageData[x + "_" + y]);
         }
     }
 
 }
-
 //drawing canvas Visibility hidden and main page visiblility to visible
 draw_board.style.visibility = "hidden";
 image.style.visibility = "visible";
-
 //Funtion to paint on the canvas using firebase data
+readData();
 function redraw_canvas(){
     
     for(let x = 0; x < no_of_Boxes; x++){
         for(let y = 0; y < no_of_Boxes; y++){
-            ctx.fillStyle = "#FFFFFF";
+            ctx.fillStyle = Canvas_DATA.key.DATA[x + "_" + y];
+            // ctx.fillStyle = "#FFFFFF";
             ctx.fillRect(x * box_Size, y * box_Size, box_Size, box_Size);
             ctx.strokeRect(x * box_Size, y * box_Size, box_Size, box_Size);
         }
@@ -115,25 +113,23 @@ function drawBoard(event) {
         ctx.moveTo(0, x);
         ctx.lineTo(canvas.width, x);
     }
-    redraw_canvas();
     ctx.lineWidth = 2;
     ctx.strokeStyle = "lightgray";
     ctx.stroke();
+    redraw_canvas();
 }
 
 //To clean the canvas
 function clean(event) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    redraw_canvas(canvas_Data);
+    // ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBoard();
-    clearData();
+
 }
 
 //Eevnt Listneres
 button.addEventListener('click', clean);
 save_btn.addEventListener('click', ()=>{
     Save(imageData);
-    readData();
 });
 
 Back_Button.addEventListener("click", back);
@@ -146,8 +142,8 @@ canvas.addEventListener("mousedown", startpos);
 canvas.addEventListener("mouseup", endpos);
 canvas.addEventListener("mousemove", hoverEffect);
 window.addEventListener('load', ()=>{
-    clearData();
     drawBoard();
+    // clearData();
+    // Save(imageData);
 });
-
 
