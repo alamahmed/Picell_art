@@ -1,0 +1,85 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+:root {
+    --nav: #ffb85b;
+    --btn: rgb(255, 202, 117);
+    --btn_hover: rgb(255, 175, 46);
+    --btn_border: rgb(255, 98, 0);
+    --btn_border_hover: rgb(255, 132, 0);
+}
+
+table {
+    height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffb85b;
+
+}
+
+
+td {
+    padding-left: 20px;
+    padding-top: 20px;
+}
+
+img:hover {
+    transform: scale(1.2);
+    opacity: 0.8;
+}
+
+img {
+    transition: 0.2s ease-in-out;
+    box-shadow: 5px 10px 13px 4px #00000076;
+    width: 150px;
+    height: 150px;
+    border-radius: 25px;
+    border: 2px solid #000000;
+}
+
+.toolkit {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position: fixed;
+    top: 0px;
+    z-index: 2;
+    background-color: var(--nav);
+}
+
+input[type="color"] {
+    margin-left: 20px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background-color: var(--nav);
+}
+
+.button {
+    margin-left: 20px;
+    padding: 10px 25px;
+    color: var(--btn_border);
+    border: 2px var(--btn_border) solid;
+    border-radius: 25px;
+    background-color: var(--btn);
+
+}
+
+.button:hover {
+    background-color: var(--btn_hover);
+
+}
+
+.can {
+    position: absolute;
+    top: 20%;
+    left: 25%;
+    justify-content: center;
+    margin-top: 10px;
+
+}

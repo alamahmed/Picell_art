@@ -4,88 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Picell</title>
-    <style>
-        * {
-            margin: 0px;
-            padding: 0px;
-        }
-
-        :root {
-            --nav: #ffb85b;
-            --btn: rgb(255, 255, 255);
-        }
-
-        table {
-            height: 100vh;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            background-color: #ffb85b;
-
-        }
-
-
-        td {
-            padding-left: 20px;
-            padding-top: 20px;
-        }
-
-        img:hover {
-            transform: scale(1.2);
-            opacity: 0.8;
-        }
-        
-        img {
-            transition: 0.2s ease-in-out;
-            box-shadow: 5px 10px 13px 4px #00000076;
-            width: 150px;
-            height: 150px;
-            border-radius: 25px;
-            border: 2px solid #000000;
-        }
-
-        .toolkit {
-            padding: 10px;
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            position: fixed;
-            top: 0px;
-
-            z-index: 2;
-            background-color: var(--nav);
-        }
-
-        input[type="color"] {
-            -webkit-appearance: none;
-            width: 40px;
-            height: 40px;
-            border: none;
-            background-color: var(--nav);
-        }
-
-        .button {
-            border: none;
-            margin-left: 20px;
-            background-color: var(--nav);
-
-        }
-
-        .button {
-            padding: 10px 25px;
-            background-color: var(--btn);
-        }
-
-        .can {
-            position: absolute;
-            top: 20%;
-            left: 25%;
-            justify-content: center;
-            margin-top: 10px;
-
-        }
-    </style>
+    <link rel="stylesheet" href="Style.css">
 
 </head>
 
@@ -95,7 +14,7 @@
             <table>
                 <tr>
                     <td>
-                        <img id="firstCanvas" src="placeHolder.png" alt="can1">
+                        <a href="#canvas"><img id="firstCanvas" src="placeHolder.png" alt="can1"></a>
                     </td>
                     <td>
                         <img id="secondCanvas" src="placeHolder.png" alt="can1">
@@ -134,9 +53,9 @@
     <section id="draw_board">
 
         <div class="toolkit">
-            <input id="Color" type="color" value = "#000000">
-            <input class="button" id="button" type="button" value="clear">
-            <input class="button" id="back" type="button" value="back">
+            <button id = "back" class = "button">back</button>
+            <input id = "Color" type = "color" value = "#000000">
+            <button id = "button" class = "button">clear</button>
             <button class = "button" id = "save">Save</button>
         </div>
 

@@ -1,4 +1,4 @@
-import { readData, Save, Canvas_DATA } from "./firebase.js";
+import { Save, Canvas_DATA, updateDATA } from "./firebase.js";
 
 //Getting Buttons and canvas from html
 let Color = document.getElementById("Color");
@@ -25,12 +25,13 @@ canvas.height = canvas.width;
 //To Store Data in MultiDimensional Array
 let imageData = {};
 
+
 //Function to clear Data in the imageData
 function clearData(){
     
     for(let x = 0; x < no_of_Boxes; x++){
         for(let y = 0; y < no_of_Boxes; y++){
-            imageData[x + "_" + y] = "#FFFFFF"; 
+            imageData[y + "_" + x] = "#FFFFFF"; 
         }
     }
 
@@ -39,13 +40,20 @@ function clearData(){
 draw_board.style.visibility = "hidden";
 image.style.visibility = "visible";
 //Funtion to paint on the canvas using firebase data
-readData();
+
 function redraw_canvas(){
     
     for(let x = 0; x < no_of_Boxes; x++){
         for(let y = 0; y < no_of_Boxes; y++){
-            ctx.fillStyle = Canvas_DATA.key.DATA[x + "_" + y];
-            // ctx.fillStyle = "#FFFFFF";
+            if (Canvas_DATA.key.DATA[y + "_" + x] != null){
+                
+                ctx.fillStyle = Canvas_DATA.key.DATA[y + "_" + x];
+
+            }
+            else{
+
+                ctx.fillStyle = "#FFFFFF";
+            }
             ctx.fillRect(x * box_Size, y * box_Size, box_Size, box_Size);
             ctx.strokeRect(x * box_Size, y * box_Size, box_Size, box_Size);
         }
@@ -116,34 +124,42 @@ function drawBoard(event) {
     ctx.lineWidth = 2;
     ctx.strokeStyle = "lightgray";
     ctx.stroke();
-    redraw_canvas();
+
 }
 
 //To clean the canvas
 function clean(event) {
-    // ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBoard();
-
+    // clearData();
+    // for(let x = 0; x < no_of_Boxes; x++){
+    //     for(let y = 0; y < no_of_Boxes; y++){
+    //         imageData[y + "_" + x] = "#FFFFFF";
+    //         ctx.fillStyle = imageData[y + "_" + x];
+    //         ctx.fillRect(x * box_Size, y * box_Size, box_Size, box_Size);
+    //         ctx.strokeRect(x * box_Size, y * box_Size, box_Size, box_Size);
+    //     }
+    // }
 }
 
 //Eevnt Listneres
 button.addEventListener('click', clean);
-save_btn.addEventListener('click', ()=>{
-    Save(imageData);
+save_btn.addEventListener('click', ()=>{    
+    updateDATA(imageData)
 });
 
 Back_Button.addEventListener("click", back);
 firstCanvas.addEventListener("click", ()=>{
     Display();
     drawBoard();
+    redraw_canvas();
 });
 
 canvas.addEventListener("mousedown", startpos);
 canvas.addEventListener("mouseup", endpos);
 canvas.addEventListener("mousemove", hoverEffect);
 window.addEventListener('load', ()=>{
+    updateDATA(imageData);
     drawBoard();
-    // clearData();
-    // Save(imageData);
 });
 
