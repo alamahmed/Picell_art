@@ -10,6 +10,10 @@ let image = document.getElementById("image");
 let Back_Button = document.getElementById("back");
 let save_btn = document.getElementById("save");
 
+let Canvas1 = document.getElementById("firstCanvas");
+//ScreenShot
+let ScreenShot = canvas.toDataURL('image/png');
+
 //Getting Offset of the canvas
 let BB = canvas.getBoundingClientRect();
 let offsetX = BB.left;
@@ -121,34 +125,51 @@ function drawBoard(event) {
         ctx.moveTo(0, x);
         ctx.lineTo(canvas.width, x);
     }
+    // clean();
     ctx.lineWidth = 2;
     ctx.strokeStyle = "lightgray";
     ctx.stroke();
-
 }
 
 //To clean the canvas
 function clean(event) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBoard();
-    // clearData();
-    // for(let x = 0; x < no_of_Boxes; x++){
-    //     for(let y = 0; y < no_of_Boxes; y++){
-    //         imageData[y + "_" + x] = "#FFFFFF";
-    //         ctx.fillStyle = imageData[y + "_" + x];
-    //         ctx.fillRect(x * box_Size, y * box_Size, box_Size, box_Size);
-    //         ctx.strokeRect(x * box_Size, y * box_Size, box_Size, box_Size);
-    //     }
-    // }
+    for(let x = 0; x < no_of_Boxes; x++){
+        for(let y = 0; y < no_of_Boxes; y++){
+            imageData[y + "_" + x] = "#FFFFFF"
+            ctx.fillStyle = "#FFFFFF";
+            ctx.fillRect(x * box_Size, y * box_Size, box_Size, box_Size);
+            ctx.strokeRect(x * box_Size, y * box_Size, box_Size, box_Size);
+        }
+    }
 }
 
 //Eevnt Listneres
 button.addEventListener('click', clean);
-save_btn.addEventListener('click', ()=>{    
-    updateDATA(imageData)
+save_btn.addEventListener('click', ()=>{  
+    let count = 0;
+    for (let x = 0; x < no_of_Boxes; x++){
+        for (let y = 0; y < no_of_Boxes; y++) {
+            if (imageData[y + "_" + x] == "FFFFFF") {
+                count = 1;
+            }
+            else {
+                break;
+            }
+        }
+    }
+    if (count == 1){
+        clearData();
+    }
+    updateDATA(imageData);
+    ScreenShot = canvas.toDataURL('image/png');
+    Canvas1.src = ScreenShot;
 });
 
-Back_Button.addEventListener("click", back);
+Back_Button.addEventListener("click", ()=>{
+    back();
+});
 firstCanvas.addEventListener("click", ()=>{
     Display();
     drawBoard();
@@ -158,8 +179,17 @@ firstCanvas.addEventListener("click", ()=>{
 canvas.addEventListener("mousedown", startpos);
 canvas.addEventListener("mouseup", endpos);
 canvas.addEventListener("mousemove", hoverEffect);
-window.addEventListener('load', ()=>{
-    updateDATA(imageData);
-    drawBoard();
-});
+// window.addEventListener('click', ()=>{
+
+//     ScreenShot = canvas.toDataURL('image/png');
+//     Canvas1.src = ScreenShot;
+//     drawBoard();
+// });
+function ONLOAD(event) {
+    // drawBoard();   
+    clean();
+    ScreenShot = canvas.toDataURL('image/png');
+    Canvas1.src = ScreenShot
+}
+window.addEventListener("load", ONLOAD());
 

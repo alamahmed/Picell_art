@@ -77,6 +77,9 @@ async function updateDATA(imagedata){
 
 }
 
+async function snapshot(){
+
+}
 export { Save, Canvas_DATA, updateDATA };
 
 
