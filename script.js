@@ -99,7 +99,7 @@ function hoverEffect(event) {
     let mouseY = (event.clientY + window.scrollY) - offsetY;
     
     let index = convertMousePositionToCellIndex(mouseX, mouseY, box_Size);
-    imageData[index.col + "_" + index.row] = Color.value;
+    Canvas_DATA.key.DATA[index.col + "_" + index.row] = Color.value;
     ctx.fillStyle = Color.value;
     ctx.fillRect(index.row * box_Size, index.col * box_Size, box_Size, box_Size);
     ctx.strokeRect(index.row * box_Size, index.col * box_Size, box_Size, box_Size);
