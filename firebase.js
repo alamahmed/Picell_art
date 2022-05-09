@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-app.js";
-import { getFirestore, getDocs, collection, setDoc, doc, onSnapshot, updateDoc } from 'https://www.gstatic.com/firebasejs/9.7.0/firebase-firestore.js';
+import { getFirestore, getDocs, collection, setDoc, doc, where, updateDoc, query, documentId } from 'https://www.gstatic.com/firebasejs/9.7.0/firebase-firestore.js';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -17,69 +17,62 @@ const firebaseConfig = {
   measurementId: "G-QJFR0KCNMZ"
 };
 
-let save_btn = document.getElementById("save");
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 //To Read DATA From Firebase Database
-let Canvas_DATA = {};
-async function readData(){
+async function getAllData(callback){
+  let data = [], id = [], i = 0;
+  const docRef = collection(db, "arts");
+  const docSnap = await getDocs(docRef);
   
-  // const docRef = collection(db, "arts");
-  // const docSnap = await getDocs(docRef);
-  
-  // try {
-  //   docSnap.forEach((doc) => {
-  //       Canvas_DATA.key = doc.data();
-  //   });
-  //   } catch (e) {
-  //     console.error("Error adding document: ", e);
-  //   }
-        
+  try {
+    docSnap.forEach((doc) => {
+      data[i] = doc.data();
+      id[i] = doc.id;
+      i++;
+    });
+  } catch (e) {
+    console.log("Error adding document: ", e);
+  }
+  callback(data, id)
 }
-        
-const docRef = collection(db, "arts");
-const docSnap = await getDocs(docRef);
 
-try {
-  docSnap.forEach((doc) => {
-    Canvas_DATA.key = doc.data();
-    
+async function getDataById(id, callback){
+  
+  const q = query(collection(db, "arts"), where(documentId(), "==", id));
+  let data;
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    data = doc.data();
   });
-} catch (e) {
-  alert("Error adding document: ", e);
-}
-const unsub = onSnapshot(doc(db, "arts", "Canvas1"), (doc) => {
-    Canvas_DATA.key = doc.data();
-});
+  callback(data)
 
-// console.log(Canvas_DATA.key.DATA);
+}
         
         
 //Function to write data on firebase database
-async function Save(imagedata){
+async function updateData(imagedata, id, screenShot){
   
-  const docRef = collection(db, "arts");
-  await setDoc(doc(docRef, "Canvas1"), {
-    DATA: imagedata
-  });
-  
-}
-  
-async function updateDATA(imagedata){
-  
-  const docRef = doc(db, "arts", "Canvas1");
+  const docRef = doc(db, "arts", id);
 
   await updateDoc(docRef, {
-    DATA: imagedata
+    data: imagedata,
+    img: screenShot
   });
 
 }
 
-async function snapshot(){
+async function updateImg(screenShot, id){
+  
+  const docRef = doc(db, "arts", id);
+
+  await updateDoc(docRef, {
+    img: screenShot
+  });
 
 }
-export { Save, Canvas_DATA, updateDATA };
+export { updateData, updateImg, getAllData, getDataById };
 
 

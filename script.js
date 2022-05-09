@@ -1,18 +1,18 @@
-import { Save, Canvas_DATA, updateDATA } from "./firebase.js";
+import { getAllData, getDataById, updateData, updateImg } from "./firebase.js";
 
+
+const totalNoOfCanvas = 10;
+let backgroundColor = "#FFFFFF";
 //Getting Buttons and canvas from html
-let Color = document.getElementById("Color");
-let button = document.getElementById("button");
+let color = document.getElementById("Color");
+let cleanBtn = document.getElementById("button");
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
-let draw_board = document.getElementById("draw_board");
-let image = document.getElementById("image");
-let Back_Button = document.getElementById("back");
-let save_btn = document.getElementById("save");
-
-let Canvas1 = document.getElementById("firstCanvas");
-//ScreenShot
-let ScreenShot = canvas.toDataURL('image/png');
+let canvasPage = document.getElementById("canvasPage");
+let mainPage = document.getElementById("mainPage");
+let backButton = document.getElementById("back");
+let saveBtn = document.getElementById("save");
+let fillbtn = document.getElementById("fill");
 
 //Getting Offset of the canvas
 let BB = canvas.getBoundingClientRect();
@@ -21,111 +21,144 @@ let offsetY = BB.top + window.scrollY;
 let paint = false;
 
 //Variables for canvas properties
-let no_of_Boxes = 50;
+let noOfBoxes = 50;
 canvas.width = innerWidth / 2;
-let box_Size = canvas.width / no_of_Boxes;
+let boxSize = canvas.width / noOfBoxes;
 canvas.height = canvas.width;
 
 //To Store Data in MultiDimensional Array
-let imageData = {};
-
-
-//Function to clear Data in the imageData
-function clearData(){
-    
-    for(let x = 0; x < no_of_Boxes; x++){
-        for(let y = 0; y < no_of_Boxes; y++){
-            imageData[y + "_" + x] = "#FFFFFF"; 
-        }
-    }
-
+let currentCanvasData = {},  canvasNo = [];
+function onFetchDataById(data){
+    redrawCanvas(data.data);
 }
+
+function onFetchAllData(data, id){
+    for (let i = 0; i < totalNoOfCanvas; i++) {
+        canvasNo[i] = document.getElementById('canvas' + i)
+        canvasNo[i].src = data[i].img
+    }
+    for (let i = 0; i < totalNoOfCanvas; i++) {
+        canvasNo[i].addEventListener('click', ()=>{
+            onLoad(i, id[i], data[i]);
+        });
+    }
+}
+
+getAllData(onFetchAllData);
+function onLoad(i, id) {
+    display();
+    drawGrid();
+    getDataById(id, onFetchDataById)
+    drawing();
+    cleanData();
+    tofill();
+    goBack();
+    saveData(i, id);
+}
+
 //drawing canvas Visibility hidden and main page visiblility to visible
-draw_board.style.visibility = "hidden";
-image.style.visibility = "visible";
-//Funtion to paint on the canvas using firebase data
+canvasPage.style.visibility = "hidden";
+mainPage.style.visibility = "visible";
 
-function redraw_canvas(){
-    
-    for(let x = 0; x < no_of_Boxes; x++){
-        for(let y = 0; y < no_of_Boxes; y++){
-            if (Canvas_DATA.key.DATA[y + "_" + x] != null){
-                
-                ctx.fillStyle = Canvas_DATA.key.DATA[y + "_" + x];
-
+//Funtion to paint on the canvas using data from firebase database
+function redrawCanvas(data){
+    for(let x = 0; x < noOfBoxes; x++){
+        for(let y = 0; y < noOfBoxes; y++){
+            if (data[x + "_" + y] != null){
+                ctx.fillStyle = data[x + "_" + y];
             }
+
             else{
-
-                ctx.fillStyle = "#FFFFFF";
+                // currentCanvasData[x + "_" + y] = backgroundColor;
+                ctx.fillStyle = backgroundColor;
             }
-            ctx.fillRect(x * box_Size, y * box_Size, box_Size, box_Size);
-            ctx.strokeRect(x * box_Size, y * box_Size, box_Size, box_Size);
+            ctx.fillRect(x * boxSize, y * boxSize, boxSize, boxSize);
+            ctx.strokeRect(x * boxSize, y * boxSize, boxSize, boxSize);
         }
     }
 
 }
 
-//Function to get into the drawing canvas
-function Display(event) {
+//Function to get to the main canvas
+function display(event) {
     
-    image.style.visibility = "hidden";
-    draw_board.style.visibility = "visible";
+    mainPage.style.visibility = "hidden";
+    canvasPage.style.visibility = "visible";
 
 }
 
-//Function for back button
+
+//Function for fill selected color
+function fill(){
+    for(let x = 0; x < noOfBoxes; x++){
+        for(let y = 0; y < noOfBoxes; y++){
+            currentCanvasData[x + "_" + y] = color.value
+            ctx.fillStyle = color.value;
+            ctx.fillRect(x * boxSize, y * boxSize, boxSize, boxSize);
+            ctx.strokeRect(x * boxSize, y * boxSize, boxSize, boxSize);
+        }
+    }
+}
+
+//back function
 function back(event) {
     
-    image.style.visibility = "visible";
-    draw_board.style.visibility = "hidden";
-    clean();
+    mainPage.style.visibility = "visible";
+    canvasPage.style.visibility = "hidden";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
 }
 
-//Function to start paint
-function startpos(e) {
-    paint = true;
-}
+function drawing(){
 
-//Function to stop paint
-function endpos() {
-    paint = false;
-}
-
-//Main function for paint
-function hoverEffect(event) {
-    if (!paint) return;
+    //Function to start paint
+    function startDraw(e) {
+        paint = true;
+    }
     
-    let mouseX = event.clientX - offsetX;
-    let mouseY = (event.clientY + window.scrollY) - offsetY;
+    //Function to stop paint
+    function endDraw() {
+        paint = false;
+    }
     
-    let index = convertMousePositionToCellIndex(mouseX, mouseY, box_Size);
-    imageData[index.col + "_" + index.row] = Color.value;
-    ctx.fillStyle = Color.value;
-    ctx.fillRect(index.row * box_Size, index.col * box_Size, box_Size, box_Size);
-    ctx.strokeRect(index.row * box_Size, index.col * box_Size, box_Size, box_Size);
-
+    //Main function for paint
+    function draw(event) {
+        if (!paint) return;
+        
+        let mouseX = event.clientX - offsetX;
+        let mouseY = (event.clientY + window.scrollY) - offsetY;
+        
+        let index = convertMousePositionToCellIndex(mouseX, mouseY, boxSize);
+        currentCanvasData[index.row + "_" + index.col] = color.value;
+        ctx.fillStyle = color.value;
+        ctx.fillRect(index.row * boxSize, index.col * boxSize, boxSize, boxSize);
+        ctx.strokeRect(index.row * boxSize, index.col * boxSize, boxSize, boxSize);
+        
+    }
+    canvas.addEventListener("mousedown", startDraw);
+    canvas.addEventListener("mouseup", endDraw);
+    canvas.addEventListener("mousemove", draw);
 }
 
 //Converting Mouse Position into index of grid
-function convertMousePositionToCellIndex(mouseX, mouseY, box_Size) {
+function convertMousePositionToCellIndex(mouseX, mouseY, boxSize) {
     return {
-        row: Math.trunc(mouseX / box_Size),
-        col: Math.trunc(mouseY / box_Size)
+        row: Math.trunc(mouseX / boxSize),
+        col: Math.trunc(mouseY / boxSize)
     };
 }
 
 //TO Draw Grid / Canvas
-function drawBoard(event) {
-    for (var x = 0; x <= canvas.width; x += box_Size) {
+function drawGrid(event) {
+    for (var x = 0; x <= canvas.width; x += boxSize) {
         ctx.moveTo(x, 0);
         ctx.lineTo(x, canvas.height);
     }
 
-    for (var x = 0; x <= canvas.height; x += box_Size) {
+    for (var x = 0; x <= canvas.height; x += boxSize) {
         ctx.moveTo(0, x);
         ctx.lineTo(canvas.width, x);
     }
-    // clean();
     ctx.lineWidth = 2;
     ctx.strokeStyle = "lightgray";
     ctx.stroke();
@@ -133,63 +166,48 @@ function drawBoard(event) {
 
 //To clean the canvas
 function clean(event) {
-    // ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawBoard();
-    for(let x = 0; x < no_of_Boxes; x++){
-        for(let y = 0; y < no_of_Boxes; y++){
-            imageData[y + "_" + x] = "#FFFFFF"
-            ctx.fillStyle = "#FFFFFF";
-            ctx.fillRect(x * box_Size, y * box_Size, box_Size, box_Size);
-            ctx.strokeRect(x * box_Size, y * box_Size, box_Size, box_Size);
+    for(let x = 0; x < noOfBoxes; x++){
+        for(let y = 0; y < noOfBoxes; y++){
+            currentCanvasData[x + "_" + y] = backgroundColor
+            ctx.fillStyle = backgroundColor;
+            ctx.fillRect(x * boxSize, y * boxSize, boxSize, boxSize);
+            ctx.strokeRect(x * boxSize, y * boxSize, boxSize, boxSize);
         }
     }
 }
 
 //Eevnt Listneres
-button.addEventListener('click', clean);
-save_btn.addEventListener('click', ()=>{  
-    let count = 0;
-    for (let x = 0; x < no_of_Boxes; x++){
-        for (let y = 0; y < no_of_Boxes; y++) {
-            if (imageData[y + "_" + x] == "FFFFFF") {
-                count = 1;
-            }
-            else {
-                break;
-            }
-        }
-    }
-    if (count == 1){
-        clearData();
-    }
-    updateDATA(imageData);
-    ScreenShot = canvas.toDataURL('image/png');
-    Canvas1.src = ScreenShot;
-});
-
-Back_Button.addEventListener("click", ()=>{
-    back();
-});
-firstCanvas.addEventListener("click", ()=>{
-    Display();
-    drawBoard();
-    redraw_canvas();
-});
-
-canvas.addEventListener("mousedown", startpos);
-canvas.addEventListener("mouseup", endpos);
-canvas.addEventListener("mousemove", hoverEffect);
-// window.addEventListener('click', ()=>{
-
-//     ScreenShot = canvas.toDataURL('image/png');
-//     Canvas1.src = ScreenShot;
-//     drawBoard();
-// });
-function ONLOAD(event) {
-    // drawBoard();   
-    clean();
-    ScreenShot = canvas.toDataURL('image/png');
-    Canvas1.src = ScreenShot
+function cleanData(){
+    cleanBtn.addEventListener('click', ()=>{
+        clean();
+        console.log('cleared canvas');
+    });
 }
-window.addEventListener("load", ONLOAD());
+
+function goBack(){
+    backButton.addEventListener("click", ()=>{
+        back();
+    })
+}
+
+function tofill(){
+    fillbtn.addEventListener('click', ()=>{
+        fill();
+    })
+}
+
+function saveData(i, id){
+
+    saveBtn.addEventListener('click', ()=>{
+
+        let screenShot = canvas.toDataURL('image/png');
+        canvasNo[i].src = screenShot;
+        console.log("id =>", id);
+        console.log("i =>", i);
+        updateData(currentCanvasData, id, screenShot);
+        // updateImg(screenShot, id)
+        currentCanvasData = {};
+    });
+    
+}
 
