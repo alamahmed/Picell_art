@@ -1,9 +1,10 @@
-import { getAllData, getDataById, updateData, updateImg } from "./firebase.js";
-
+import { getAllData, getDataById, updateData } from "./firebase.js";
 
 const totalNoOfCanvas = 10;
 let backgroundColor = "#FFFFFF";
+
 //Getting Buttons and canvas from html
+let body = document.querySelector("body");
 let color = document.getElementById("Color");
 let cleanBtn = document.getElementById("button");
 let canvas = document.getElementById("canvas");
@@ -19,6 +20,8 @@ let BB = canvas.getBoundingClientRect();
 let offsetX = BB.left;
 let offsetY = BB.top + window.scrollY;
 let paint = false;
+let indexToSave = -1;
+let idToSave = -1;
 
 //Variables for canvas properties
 let noOfBoxes = 50;
@@ -28,37 +31,60 @@ canvas.height = canvas.width;
 
 //To Store Data in MultiDimensional Array
 let currentCanvasData = {},  canvasNo = [];
-function onFetchDataById(data){
-    redrawCanvas(data.data);
+
+
+//MAPPING ALL THE CANVAS ON AN ARRAY
+for(let i = 0; i < totalNoOfCanvas; i++){
+    canvasNo[i] = document.getElementById('canvas' + i)
 }
 
+//=====================================================================================================
+//ALL THE FUNCTIONS
+//=====================================================================================================
+
+//FETCH DATA FROM DATABASE
 function onFetchAllData(data, id){
+    
     for (let i = 0; i < totalNoOfCanvas; i++) {
-        canvasNo[i] = document.getElementById('canvas' + i)
         canvasNo[i].src = data[i].img
     }
+
     for (let i = 0; i < totalNoOfCanvas; i++) {
         canvasNo[i].addEventListener('click', ()=>{
-            onLoad(i, id[i], data[i]);
+            executor(i, id[i]);
         });
     }
 }
 
-getAllData(onFetchAllData);
-function onLoad(i, id) {
+function onFetchDataById(data){
+
+    redrawCanvas(data.data);
+ 
+}
+
+//Function to call all the function after fetching all the data
+function executor(i, id) {
+
     display();
     drawGrid();
-    getDataById(id, onFetchDataById)
+    getDataById(id, onFetchDataById);
     drawing();
     cleanData();
     tofill();
     goBack();
     saveData(i, id);
+
 }
 
 //drawing canvas Visibility hidden and main page visiblility to visible
-canvasPage.style.visibility = "hidden";
-mainPage.style.visibility = "visible";
+function pageChange(){
+
+    mainPage.style.visibility = "visible";
+    canvasPage.style.visibility = "hidden";
+
+}
+
+pageChange();
 
 //Funtion to paint on the canvas using data from firebase database
 function redrawCanvas(data){
@@ -66,12 +92,13 @@ function redrawCanvas(data){
         for(let y = 0; y < noOfBoxes; y++){
             if (data[x + "_" + y] != null){
                 ctx.fillStyle = data[x + "_" + y];
+                currentCanvasData[x + "_" + y] = data[x + "_" + y];
             }
 
             else{
-                // currentCanvasData[x + "_" + y] = backgroundColor;
                 ctx.fillStyle = backgroundColor;
             }
+
             ctx.fillRect(x * boxSize, y * boxSize, boxSize, boxSize);
             ctx.strokeRect(x * boxSize, y * boxSize, boxSize, boxSize);
         }
@@ -81,34 +108,13 @@ function redrawCanvas(data){
 
 //Function to get to the main canvas
 function display(event) {
-    
+
     mainPage.style.visibility = "hidden";
     canvasPage.style.visibility = "visible";
-
+    body.style.backgroundColor = "#FFFFFF";
 }
 
-
-//Function for fill selected color
-function fill(){
-    for(let x = 0; x < noOfBoxes; x++){
-        for(let y = 0; y < noOfBoxes; y++){
-            currentCanvasData[x + "_" + y] = color.value
-            ctx.fillStyle = color.value;
-            ctx.fillRect(x * boxSize, y * boxSize, boxSize, boxSize);
-            ctx.strokeRect(x * boxSize, y * boxSize, boxSize, boxSize);
-        }
-    }
-}
-
-//back function
-function back(event) {
-    
-    mainPage.style.visibility = "visible";
-    canvasPage.style.visibility = "hidden";
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-}
-
+//TO LET USER DRAW ON THE CANVAS
 function drawing(){
 
     //Function to start paint
@@ -164,8 +170,22 @@ function drawGrid(event) {
     ctx.stroke();
 }
 
+//Function for fill selected color
+function fill(){
+    for(let x = 0; x < noOfBoxes; x++){
+        for(let y = 0; y < noOfBoxes; y++){
+            currentCanvasData[x + "_" + y] = color.value
+            ctx.fillStyle = color.value;
+            ctx.fillRect(x * boxSize, y * boxSize, boxSize, boxSize);
+            ctx.strokeRect(x * boxSize, y * boxSize, boxSize, boxSize);
+        }
+    }
+}
+
 //To clean the canvas
 function clean(event) {
+
+    ctx.fillStyle = backgroundColor;
     for(let x = 0; x < noOfBoxes; x++){
         for(let y = 0; y < noOfBoxes; y++){
             currentCanvasData[x + "_" + y] = backgroundColor
@@ -174,40 +194,59 @@ function clean(event) {
             ctx.strokeRect(x * boxSize, y * boxSize, boxSize, boxSize);
         }
     }
+    drawGrid();
 }
 
+//back function
+function back(event) {
+    
+    pageChange();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    currentCanvasData = {};
+    cleanBtn.removeEventListener("click", clean);
+    backButton.removeEventListener("click", back);
+    fillbtn.removeEventListener("click", fill);
+    saveBtn.removeEventListener("click", save);
+
+}
+
+//Save Function
+function save(event){
+
+    let screenShot = canvas.toDataURL('image/png');
+    canvasNo[indexToSave].src = screenShot;
+    updateData(currentCanvasData, idToSave, screenShot);
+    currentCanvasData = {};
+
+}
+
+//GET DATA
+function getdata(){
+    getAllData(onFetchAllData);
+}
+
+//=====================================================================================================
 //Eevnt Listneres
+//=====================================================================================================
 function cleanData(){
-    cleanBtn.addEventListener('click', ()=>{
-        clean();
-        console.log('cleared canvas');
-    });
+    cleanBtn.addEventListener('click', clean);
 }
 
 function goBack(){
-    backButton.addEventListener("click", ()=>{
-        back();
-    })
+    backButton.addEventListener("click", back);
 }
 
 function tofill(){
-    fillbtn.addEventListener('click', ()=>{
-        fill();
-    })
+    fillbtn.addEventListener('click', fill);
 }
 
 function saveData(i, id){
+    indexToSave = i;
+    idToSave = id; 
+    saveBtn.addEventListener('click', save);
 
-    saveBtn.addEventListener('click', ()=>{
-
-        let screenShot = canvas.toDataURL('image/png');
-        canvasNo[i].src = screenShot;
-        console.log("id =>", id);
-        console.log("i =>", i);
-        updateData(currentCanvasData, id, screenShot);
-        // updateImg(screenShot, id)
-        currentCanvasData = {};
-    });
-    
 }
+
+
+window.addEventListener("load", getdata());
 

@@ -36,11 +36,12 @@ async function getAllData(callback){
   } catch (e) {
     console.log("Error adding document: ", e);
   }
-  callback(data, id)
+  callback(data, id);
 }
 
 async function getDataById(id, callback){
-  
+
+
   const q = query(collection(db, "arts"), where(documentId(), "==", id));
   let data;
   const querySnapshot = await getDocs(q);
@@ -64,15 +65,6 @@ async function updateData(imagedata, id, screenShot){
 
 }
 
-async function updateImg(screenShot, id){
-  
-  const docRef = doc(db, "arts", id);
-
-  await updateDoc(docRef, {
-    img: screenShot
-  });
-
-}
-export { updateData, updateImg, getAllData, getDataById };
+export { updateData, getAllData, getDataById };
 
 

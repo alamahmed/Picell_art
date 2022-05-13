@@ -5,73 +5,84 @@
     <meta charset="UTF-8">
     <title>Picell</title>
     <link rel="stylesheet" href="Style.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-    <!-- HTML CANVAS -->
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js" type = "module"></script>
+    <div id = "mainPage">
+        
+        <section class = "hero">
+            <h1>Welcome to</h1><br>
+            <h2>Picell</h2>
+        </section>
+
+        <section class = "table">
+
+            <table>
+                <tr class="row">
+                    <td>
+                        <img id="canvas0" src="placeHolder.png" alt="can1">
+                    </td>
+                    <td>
+                        <img id="canvas1" src="placeHolder.png" alt="can1">
+                    </td>
+                    <td>
+                        <img id="canvas2" src="placeHolder.png" alt="can1">
+                    </td>
+                    <td>
+                        <img id="canvas3" src="placeHolder.png" alt="can1">
+                    </td>
+                    <td>
+                        <img id="canvas4" src="placeHolder.png" alt="can1">
+                    </td>
+                </tr>
+                <tr class="row">
+                    <td>
+                        <img id="canvas5" src="placeHolder.png" alt="can1">
+                    </td>
+                    <td>
+                        <img id="canvas6" src="placeHolder.png" alt="can1">
+                    </td>
+                    <td>
+                        <img id="canvas7" src="placeHolder.png" alt="can1">
+                    </td>
+                    <td>
+                        <img id="canvas8" src="placeHolder.png" alt="can1">
+                    </td>
+                    <td>
+                        <img id="canvas9" src="placeHolder.png" alt="can1">
+                    </td>
+                </tr>
+            </table>
+
+        </section>
     
-    <div id="mainPage">
-        <table>
-            <tr>
-                <td>
-                    <img id="canvas0" src="placeHolder.png" alt="can1">
-                </td>
-                <td>
-                    <img id="canvas1" src="placeHolder.png" alt="can1">
-                </td>
-                <td>
-                    <img id="canvas2" src="placeHolder.png" alt="can1">
-                </td>
-                <td>
-                    <img id="canvas3" src="placeHolder.png" alt="can1">
-                </td>
-                <td>
-                    <img id="canvas4" src="placeHolder.png" alt="can1">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <img id="canvas5" src="placeHolder.png" alt="can1">
-                </td>
-                <td>
-                    <img id="canvas6" src="placeHolder.png" alt="can1">
-                </td>
-                <td>
-                    <img id="canvas7" src="placeHolder.png" alt="can1">
-                </td>
-                <td>
-                    <img id="canvas8" src="placeHolder.png" alt="can1">
-                </td>
-                <td>
-                    <img id="canvas9" src="placeHolder.png" alt="can1">
-                </td>
-            </tr>
-        </table>
     </div>
 
-    <section id="canvasPage">
+    <div id = "canvasPage">
 
-        <div class="toolkit">
+        <section class = "toolkit">
             <button id = "back" class = "button">back</button>
             <input id = "Color" type = "color" value = "#000000">
             <button id = "button" class = "button">clear</button>
-            <button id = "fill" class = "button">fill</button>
+            <button id = "fill" class = "button">Fill</button>
             <button id = "save" class = "button">Save</button>
-        </div>
+        </section>
 
-        <div class="can">
-            <canvas id="canvas" class="canvas"></canvas>
-        </div>
+        <section class = "can">
+            <canvas id = "canvas" class = "canvas"></canvas>
+        </section>
 
-    </section>
+    </div>
+    
+    
     <!-- firebase -->
     <script src="firebase.js" type = "module"></script>
 
     <!-- javascript -->
-    <script src="script.js" type = "module" language="javascript"></script>
+    <script src="script.js" type = "module" language="javascript"></script> 
 
     
 
