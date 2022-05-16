@@ -207,6 +207,7 @@ function back(event) {
     backButton.removeEventListener("click", back);
     fillbtn.removeEventListener("click", fill);
     saveBtn.removeEventListener("click", save);
+    currentCanvasData = {};
 
 }
 
@@ -216,7 +217,6 @@ function save(event){
     let screenShot = canvas.toDataURL('image/png');
     canvasNo[indexToSave].src = screenShot;
     updateData(currentCanvasData, idToSave, screenShot);
-    currentCanvasData = {};
 
 }
 
