@@ -1,20 +1,28 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-app.js";
-import { getFirestore, getDocs, collection, setDoc, doc, where, updateDoc, query, documentId } from 'https://www.gstatic.com/firebasejs/9.7.0/firebase-firestore.js';
+import { getFirestore, getDocs, collection, doc, where, updateDoc, query, documentId } from 'https://www.gstatic.com/firebasejs/9.7.0/firebase-firestore.js';
+
+var mykey = config.MY_KEY;
+var secretkey = config.SECRET_KEY;
+var domain = config.Domain;
+var url = config.URL;
+var senderId = senderID;
+var measurementId = config.KEY_2;
+var storage = config.storage;
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBd6AkAihAo7RTklxzNX9obP8FDruyJHCY",
-  authDomain: "picell-8b622.firebaseapp.com",
-  databaseURL: "https://picell-8b622-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "picell-8b622",
-  storageBucket: "picell-8b622.appspot.com",
-  messagingSenderId: "949784715102",
-  appId: "1:949784715102:web:ef1474f843cf30508e79cf",
-  measurementId: "G-QJFR0KCNMZ"
+  apiKey: mykey,
+  authDomain: domain,
+  databaseURL: url,
+  projectId: secretkey,
+  storageBucket: storage,
+  messagingSenderId: senderId,
+  appId: secretkey,
+  measurementId: measurementId
 };
 
 // Initialize Firebase
