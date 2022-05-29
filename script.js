@@ -23,6 +23,23 @@ let paint = false;
 let indexToSave = -1;
 let idToSave = -1;
 
+// function canvasSize(mobile)
+// {
+//     if(mobile.matches)
+//     {
+
+//     }
+//     else 
+//     {
+
+//     }
+// }
+
+// var mobile = window.matchMedia("(max-width: 700px)");
+// canvasSize(mobile);
+// mobile.addListener(canvasSize);
+
+
 //Variables for canvas properties
 let noOfBoxes = 50;
 canvas.width = innerWidth / 2;

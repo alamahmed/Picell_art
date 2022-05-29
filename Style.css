@@ -1,7 +1,7 @@
-/* Fonts {
-    font-family: 'Press Start 2P', cursive;
-    font-family: 'Share Tech Mono', monospace;
-} */
+/*
+font-family: 'Press Start 2P', cursive;
+font-family: 'Share Tech Mono', monospace;
+*/
 
 :root {
     --nav: #ffb85b;
@@ -43,7 +43,6 @@ body {
     
     font-size: 40px;
     font-family: 'Press Start 2P', cursive;
-    /* font-family: 'Share Tech Mono', monospace; */
     box-shadow: 1px 1px 13px 4px var(--border);
     border-radius: 60px;
 }
@@ -81,7 +80,9 @@ td {
     border-radius: 60px;
 }
 
-@media screen and (max-width: 500px) {
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+
     .hero{
         font-size: 28px;
     }
@@ -110,7 +111,7 @@ td {
         height: fit-content;
         padding-bottom: 10%;
     }
-    
+
 }
 
 .toolkit {
