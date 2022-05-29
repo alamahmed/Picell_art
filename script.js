@@ -144,6 +144,9 @@ function drawing(){
     canvas.addEventListener("mousedown", startDraw);
     canvas.addEventListener("mouseup", endDraw);
     canvas.addEventListener("mousemove", draw);
+    canvas.addEventListener("touchstart", startDraw);
+    canvas.addEventListener("touchend", endDraw);
+    canvas.addEventListener("touchmove", draw);
 }
 
 //Converting Mouse Position into index of grid
@@ -207,6 +210,9 @@ function back(event) {
     backButton.removeEventListener("click", back);
     fillbtn.removeEventListener("click", fill);
     saveBtn.removeEventListener("click", save);
+    // canvas.removeEventListener("touchstart", startDraw);
+    // canvas.removeEventListener("touchend", endDraw);
+    // canvas.removeEventListener("touchmove", draw);
     currentCanvasData = {};
 
 }
