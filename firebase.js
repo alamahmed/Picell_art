@@ -3,12 +3,12 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.7.0/firebase
 import { getFirestore, getDocs, collection, doc, where, updateDoc, query, documentId } from 'https://www.gstatic.com/firebasejs/9.7.0/firebase-firestore.js';
 
 var mykey = config.MY_KEY;
-var secretkey = config.SECRET_KEY;
 var domain = config.Domain;
 var url = config.URL;
-var senderId = senderID;
-var measurementId = config.KEY_2;
 var storage = config.storage;
+var senderId = config.senderID;
+var secretkey = config.SECRET_KEY;
+var measurementId = config.KEY_2;
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -18,7 +18,7 @@ const firebaseConfig = {
   apiKey: mykey,
   authDomain: domain,
   databaseURL: url,
-  projectId: secretkey,
+  projectId: "picell-8b622",
   storageBucket: storage,
   messagingSenderId: senderId,
   appId: secretkey,
